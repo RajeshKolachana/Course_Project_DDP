@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Course Project- Shiny Application and Reproducible Pitch</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Course Project- Shiny Application and Reproducible Pitch">
+  <meta name="author" content="Rajesh Kolachana">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Course Project- Shiny Application and Reproducible Pitch</h1>
+    <h2>Using Slidify</h2>
+    <p>Rajesh Kolachana<br/>Data analyst</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Overview</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This presentation is developed as part of the Course project for Developing Data Products course. This course is part of the Data Science specialization in Coursera.</p>
+
+<p>The course project contains two parts.</p>
+
+<ul>
+<li>Create and deploy a <strong>Shiny</strong> Application.</li>
+<li>Develop a Reproducible pitch in <strong>Slidify</strong>/ R studio Presenter for the application.</li>
+</ul>
+
+<p>A shiny application which verifies the Central Limit theorem is deployed in the shinyApps.io website <a href="https://rajeshkolachana.shinyapps.io/Course_Project_Shiny_Application_and_Reproducible_Pitch/">here</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>ui.R - Design layout</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>fluid page</strong></p>
+
+<ul>
+<li><p>Side bar panel</p>
+
+<ul>
+<li>helpText widget- To add help text</li>
+<li>sliderInput widget- To choose &quot;lambda&quot;</li>
+<li>numericInput widget- To choose &quot;Number of iid Random variables&quot;</li>
+<li>checkboxGroupInput widget- To choose &quot;Number of simulations&quot;</li>
+<li>submitButton widget- To submit</li>
+</ul></li>
+<li><p>Main panel</p>
+
+<ul>
+<li>tabsetPanel widget
+
+<ul>
+<li>Plot tabPanel- To summarize the output</li>
+<li>Documentation tabPanel- To help novice users get started</li>
+</ul></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>server.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Operations on the ui input in sever.R are shown below.</li>
+</ul>
+
+<pre><code>output$plot &lt;- renderPlot({
+    set.seed(24)
+    simulated_means = numeric(length = input$nsim)
+    for (i in 1:input$nsim) {
+      simulated_means[i] = mean(rexp(n = input$nrv,rate = input$lambda))
+    }
+    ...
+    theoretical_mean &lt;- 1/input$lambda
+    ...
+    })
+</code></pre>
+
+<ul>
+<li>Reactive output displayed as a result of server calculations are made sure by using</li>
+</ul>
+
+<pre><code>shinyServer(function(input, output) {
+   ...
+   }))
+
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Summary</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The aim of this application is to verify the Central limit theorem using the exponential distribution. </li>
+<li>In this project, the exponential distribution is obtained by averaging a few exponential random variables as inputted   in the side bar panel. </li>
+<li>The distribution is standardised(centered and scaled) to investigate the Central limit theorem. </li>
+<li>The iid random variables are drawn from a exponential distribution  with the rate lambda. </li>
+<li>According to the Central limit theorem, the distribution of the averages of iid variables(properly standardised)       becomes that of a standard normal as the sample size increases. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="example1.png" alt=""></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Overview'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='ui.R - Design layout'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='server.R'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Summary'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Example'>
+         5
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
