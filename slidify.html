@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Course Project- Shiny Application and Reproducible Pitch</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Course Project- Shiny Application and Reproducible Pitch">
+  <meta name="author" content="Rajesh Kolachana">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Course Project- Shiny Application and Reproducible Pitch</h1>
+    <h2>Using Slidify</h2>
+    <p>Rajesh Kolachana<br/>Data analyst</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Summary</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The aim of this application is to verify the Central limit theorem using the exponential distribution. </li>
+<li>In this project, the exponential distribution is obtained by averaging a few exponential random variables as inputted   in the side bar panel. </li>
+<li>The distribution is standardised(centered and scaled) to investigate the Central limit theorem. </li>
+<li>The iid random variables are drawn from a exponential distribution  with the rate lambda. </li>
+<li>According to the Central limit theorem, the distribution of the averages of iid variables(properly standardised)       becomes that of a standard normal as the sample size increases. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Layout</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="example1.png" alt=""></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example case</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># simulating 1000 RVs where each one is obtained by averaging 40 exponential random variables
+set.seed(24)
+lambda &lt;- 0.2 # rate of the exponential distribution
+n &lt;- 40 # number of iid RVs
+ns &lt;- 1000 # number of simulations
+simulated_means &lt;- numeric(ns)
+for (i in 1:ns) {  simulated_means[i] = mean(rexp(n = n,rate = lambda))}
+# Calculation of sample mean and theoretical mean
+sample_mean &lt;- mean(simulated_means);theoretical_mean &lt;- 1/lambda;sample_sd &lt;- sd(simulated_means)
+sample_mean
+</code></pre>
+
+<pre><code>## [1] 5.015078
+</code></pre>
+
+<pre><code class="r">theoretical_mean
+</code></pre>
+
+<pre><code>## [1] 5
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example (cont...)</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">hist(simulated_std_means,breaks=50,prob=T,col=&quot;orange&quot;,xlab = &quot;Standardised simulated means&quot;,main=&quot;Distributions of simulated means and standard normal&quot;,ylab=&quot;density&quot;);abline(v=0,col = &quot;red&quot;,lty=1)
+abline(v=mean(simulated_std_means),col = &quot;green&quot;,lty=1);lines(xfit, yfit, pch=22, col=&quot;black&quot;, lty=5);legend(&quot;topright&quot;,legend = c(&quot;Sample mean&quot;,&quot;Theoretical mean&quot;),col = c(&quot;green&quot;,&quot;red&quot;), lty=1)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Summary'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Layout'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Example case'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Example (cont...)'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
