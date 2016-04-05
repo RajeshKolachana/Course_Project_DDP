@@ -43,94 +43,6 @@
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
   <hgroup>
-    <h2>Overview</h2>
-  </hgroup>
-  <article data-timings="">
-    <p>This presentation is developed as part of the Course project for Developing Data Products course. This course is part of the Data Science specialization in Coursera.</p>
-
-<p>The course project contains two parts.</p>
-
-<ul>
-<li>Create and deploy a <strong>Shiny</strong> Application.</li>
-<li>Develop a Reproducible pitch in <strong>Slidify</strong>/ R studio Presenter for the application.</li>
-</ul>
-
-<p>A shiny application which verifies the Central Limit theorem is deployed in the shinyApps.io website <a href="https://rajeshkolachana.shinyapps.io/Course_Project_Shiny_Application_and_Reproducible_Pitch/">here</a></p>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="class" id="id" style="background:;">
-  <hgroup>
-    <h2>ui.R - Design layout</h2>
-  </hgroup>
-  <article data-timings="">
-    <p><strong>fluid page</strong></p>
-
-<ul>
-<li><p>Side bar panel</p>
-
-<ul>
-<li>helpText widget- To add help text</li>
-<li>sliderInput widget- To choose &quot;lambda&quot;</li>
-<li>numericInput widget- To choose &quot;Number of iid Random variables&quot;</li>
-<li>checkboxGroupInput widget- To choose &quot;Number of simulations&quot;</li>
-<li>submitButton widget- To submit</li>
-</ul></li>
-<li><p>Main panel</p>
-
-<ul>
-<li>tabsetPanel widget
-
-<ul>
-<li>Plot tabPanel- To summarize the output</li>
-<li>Documentation tabPanel- To help novice users get started</li>
-</ul></li>
-</ul></li>
-</ul>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="class" id="id" style="background:;">
-  <hgroup>
-    <h2>server.R</h2>
-  </hgroup>
-  <article data-timings="">
-    <ul>
-<li>Operations on the ui input in sever.R are shown below.</li>
-</ul>
-
-<pre><code>output$plot &lt;- renderPlot({
-    set.seed(24)
-    simulated_means = numeric(length = input$nsim)
-    for (i in 1:input$nsim) {
-      simulated_means[i] = mean(rexp(n = input$nrv,rate = input$lambda))
-    }
-    ...
-    theoretical_mean &lt;- 1/input$lambda
-    ...
-    })
-</code></pre>
-
-<ul>
-<li>Reactive output displayed as a result of server calculations are made sure by using</li>
-</ul>
-
-<pre><code>shinyServer(function(input, output) {
-   ...
-   }))
-
-</code></pre>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="class" id="id" style="background:;">
-  <hgroup>
     <h2>Summary</h2>
   </hgroup>
   <article data-timings="">
@@ -148,10 +60,55 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Example</h2>
+    <h2>Layout</h2>
   </hgroup>
   <article data-timings="">
     <p><img src="example1.png" alt=""></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example case</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># simulating 1000 RVs where each one is obtained by averaging 40 exponential random variables
+set.seed(24)
+lambda &lt;- 0.2 # rate of the exponential distribution
+n &lt;- 40 # number of iid RVs
+ns &lt;- 1000 # number of simulations
+simulated_means &lt;- numeric(ns)
+for (i in 1:ns) {  simulated_means[i] = mean(rexp(n = n,rate = lambda))}
+# Calculation of sample mean and theoretical mean
+sample_mean &lt;- mean(simulated_means);theoretical_mean &lt;- 1/lambda;sample_sd &lt;- sd(simulated_means)
+sample_mean
+</code></pre>
+
+<pre><code>## [1] 5.015078
+</code></pre>
+
+<pre><code class="r">theoretical_mean
+</code></pre>
+
+<pre><code>## [1] 5
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example (cont...)</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">hist(simulated_std_means,breaks=50,prob=T,col=&quot;orange&quot;,xlab = &quot;Standardised simulated means&quot;,main=&quot;Distributions of simulated means and standard normal&quot;,ylab=&quot;density&quot;);abline(v=0,col = &quot;red&quot;,lty=1)
+abline(v=mean(simulated_std_means),col = &quot;green&quot;,lty=1);lines(xfit, yfit, pch=22, col=&quot;black&quot;, lty=5);legend(&quot;topright&quot;,legend = c(&quot;Sample mean&quot;,&quot;Theoretical mean&quot;),col = c(&quot;green&quot;,&quot;red&quot;), lty=1)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -163,32 +120,26 @@
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title='Overview'>
+        data-slide=1 title='Summary'>
          1
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='ui.R - Design layout'>
+        data-slide=2 title='Layout'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='server.R'>
+        data-slide=3 title='Example case'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='Summary'>
+        data-slide=4 title='Example (cont...)'>
          4
-      </a>
-    </li>
-    <li>
-      <a href="#" target="_self" rel='tooltip' 
-        data-slide=5 title='Example'>
-         5
       </a>
     </li>
   </ul>

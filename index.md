@@ -11,65 +11,6 @@ mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
 ---
 
-## Overview
-This presentation is developed as part of the Course project for Developing Data Products course. This course is part of the Data Science specialization in Coursera.
-
-The course project contains two parts.
-* Create and deploy a **Shiny** Application.
-* Develop a Reproducible pitch in **Slidify**/ R studio Presenter for the application.
-
-
-A shiny application which verifies the Central Limit theorem is deployed in the shinyApps.io website [here](https://rajeshkolachana.shinyapps.io/Course_Project_Shiny_Application_and_Reproducible_Pitch/)
-
---- .class #id 
-
-## ui.R - Design layout
-
-**fluid page**
-
-* Side bar panel
-  + helpText widget- To add help text
-  + sliderInput widget- To choose "lambda"
-  + numericInput widget- To choose "Number of iid Random variables"
-  + checkboxGroupInput widget- To choose "Number of simulations"
-  + submitButton widget- To submit
-
-* Main panel
-  + tabsetPanel widget
-     - Plot tabPanel- To summarize the output
-     - Documentation tabPanel- To help novice users get started
-
---- .class #id 
-
-## server.R
-
-* Operations on the ui input in sever.R are shown below.
-
-```
-output$plot <- renderPlot({
-    set.seed(24)
-    simulated_means = numeric(length = input$nsim)
-    for (i in 1:input$nsim) {
-      simulated_means[i] = mean(rexp(n = input$nrv,rate = input$lambda))
-    }
-    ...
-    theoretical_mean <- 1/input$lambda
-    ...
-    })
-```
-
-* Reactive output displayed as a result of server calculations are made sure by using
-
-```
-shinyServer(function(input, output) {
-   ...
-   }))
-   
-```
-
-
---- .class #id 
-
 ## Summary
 
 * The aim of this application is to verify the Central limit theorem using the exponential distribution. 
@@ -78,10 +19,53 @@ shinyServer(function(input, output) {
 * The iid random variables are drawn from a exponential distribution  with the rate lambda. 
 * According to the Central limit theorem, the distribution of the averages of iid variables(properly standardised)       becomes that of a standard normal as the sample size increases. 
 
+--- .class #id 
+
+## Layout
+
+![](example1.png)
 
 --- .class #id 
 
-## Example
+## Example case
 
-![](example1.png)
+
+```r
+# simulating 1000 RVs where each one is obtained by averaging 40 exponential random variables
+set.seed(24)
+lambda <- 0.2 # rate of the exponential distribution
+n <- 40 # number of iid RVs
+ns <- 1000 # number of simulations
+simulated_means <- numeric(ns)
+for (i in 1:ns) {  simulated_means[i] = mean(rexp(n = n,rate = lambda))}
+# Calculation of sample mean and theoretical mean
+sample_mean <- mean(simulated_means);theoretical_mean <- 1/lambda;sample_sd <- sd(simulated_means)
+sample_mean
+```
+
+```
+## [1] 5.015078
+```
+
+```r
+theoretical_mean
+```
+
+```
+## [1] 5
+```
+
+--- .class #id 
+
+## Example (cont...)
+
+
+
+
+```r
+hist(simulated_std_means,breaks=50,prob=T,col="orange",xlab = "Standardised simulated means",main="Distributions of simulated means and standard normal",ylab="density");abline(v=0,col = "red",lty=1)
+abline(v=mean(simulated_std_means),col = "green",lty=1);lines(xfit, yfit, pch=22, col="black", lty=5);legend("topright",legend = c("Sample mean","Theoretical mean"),col = c("green","red"), lty=1)
+```
+
+![plot of chunk unnamed-chunk-3](assets/fig/unnamed-chunk-3-1.png)
 
